@@ -1,98 +1,105 @@
-\# CRM Workflow Orchestrator
-
-
+# CRM Workflow Orchestrator
 
 A portfolio implementation demonstrating auditable CRM workflow orchestration with FastAPI.
 
+The project shows how incoming leads move through a structured workflow including validation, normalization, deduplication, qualification, routing, human review, CRM actions, retry logic, exception handling and audit logging.
 
-
-The project shows how incoming leads can move through a structured workflow including normalization, deduplication, qualification, routing, human review, CRM updates, follow up logic and audit tracking.
-
-
-
-\## Planned Workflow
-
-
+## Workflow
 
 Lead Intake  
-
-→ Normalize  
-
-→ Dedupe  
-
-→ Source of Truth  
-
-→ CRM Upsert  
-
+→ Validation  
+→ Normalization  
+→ Deduplication  
 → Qualification  
-
 → Routing  
-
 → Human Review  
-
-→ CRM Update  
-
-→ Follow Up  
-
+→ CRM Action  
 → Audit Log
 
+## Failure Handling
 
-
-\## Failure Handling
-
-
-
-Retry  
-
+CRM Action  
+→ Retry  
 → Exception Queue  
+→ Human Review  
+→ Audit Log
 
-→ Human Review
+## Features
 
+- FastAPI REST API
+- Pydantic validation
+- Lead normalization
+- Duplicate detection
+- Qualification logic
+- Routing logic
+- Human in the Loop review
+- Retry handling
+- Exception queue
+- Audit logging
+- Automated tests
 
+## Example Flow
 
-\## Tech Stack
+A qualified LinkedIn lead can be routed to the sales pipeline.
 
+A lead requiring manual review is routed to a human review step before further processing.
 
+A simulated CRM failure is retried three times and then moved to an exception queue.
 
-\- Python
+## Tech Stack
 
-\- FastAPI
+- Python 3.11
+- FastAPI
+- Pydantic
+- Pytest
+- REST APIs
 
-\- REST APIs
+## API
 
-\- Human in the Loop
+### POST /leads
 
-\- Workflow Orchestration
+Example request:
 
-\- Audit Logging
+```json
+{
+  "first_name": "Anna",
+  "last_name": "Meyer",
+  "email": "anna@example.com",
+  "company": "Example GmbH",
+  "source": "linkedin"
+}
 
-\- Structured Error Handling
+Tests
 
+Run:
 
+python -m pytest
 
-\## Current Status
+Current test coverage includes:
 
+normalization
+qualification
+routing
+Project Structure
+app/
+├── main.py
+├── schemas.py
+├── services/
+│   ├── normalization.py
+│   ├── deduplication.py
+│   ├── qualification.py
+│   ├── routing.py
+│   ├── audit.py
+│   └── exceptions.py
+└── human_review/
+    └── review.py
 
-
-Initial FastAPI service is running with basic health endpoints.
-
-
-
-More workflow components will be added incrementally.
-
-
-
-\## Production Scope
-
-
+tests/
+└── test_workflow.py
+Production Scope
 
 This repository is a portfolio implementation.
 
-
-
-Certain production components, integrations, credentials, proprietary business logic and internal orchestration mechanisms are intentionally excluded.
-
-
+Certain production integrations, credentials, proprietary business logic and internal orchestration mechanisms are intentionally excluded.
 
 Production repositories are maintained privately.
-
